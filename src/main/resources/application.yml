@@ -44,7 +44,7 @@ spring:
   resources:
     cache:
       period: 0
-    static-locations: classpath:/static/
+    static-locations: classpath:/static/,file:${file.filePath}
   # 模板引擎
   thymeleaf:
     mode: HTML
@@ -147,8 +147,7 @@ file:
 #  tempPath: /home/program/files/temp/
   smallPath: /home/program/files/img/
   testPath: /home/program/files/
-  filePath: C:/pic/img/
-  tempPath: C:/pic/img/temp/
+  filePath: C:/images/
 wx:
-  appid: wxdec7d4d8955730fc
-  secret: 03ee494d14fbc60d734124b1d22aa4f3
+  appid: wxd34c4cc52741392a
+  secret: abf63e5c7b2b382a4d9922547e45df95

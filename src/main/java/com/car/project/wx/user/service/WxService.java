@@ -30,32 +30,34 @@ public class WxService extends WxTools {
     private WxUserMapper userMapper;
 
     public WxUserRequest login(String code) {
-        Map<String,String> param=new HashMap<>();
-        param.put("appid",wxConfig.getAppid());
-        param.put("secret",wxConfig.getSecret());
-        param.put("js_code",code);
-        param.put("grant_type","authorization_code");
+        Map<String, String> param = new HashMap<>();
+        param.put("appid", wxConfig.getAppid());
+        param.put("secret", wxConfig.getSecret());
+        param.put("js_code", code);
+        param.put("grant_type", "authorization_code");
+        String urlParam = "appid=" + wxConfig.getAppid() + "&secret=" + wxConfig.getSecret() + "&js_code=" + code + "&grant_type=authorization_code";
 
-        String result= HttpUtils.sendGet(JSCODE_TO_SESSION_URL, Joiner.on("&").withKeyValueSeparator("=").join(param));
+        String result = HttpUtils.sendGet(JSCODE_TO_SESSION_URL, urlParam);
+        System.out.println(result);
+        Jscode2SessionResult jscode2SessionResult = JsonUtils.toObject(result, Jscode2SessionResult.class);
 
-        Jscode2SessionResult jscode2SessionResult= JsonUtils.toObject(result,Jscode2SessionResult.class);
-        WxUserRequest userRequest=userMapper.selectByOpenid(jscode2SessionResult.getOpenid());
-        if (userRequest==null){
+        WxUserRequest userRequest = userMapper.selectByOpenid(jscode2SessionResult.getOpenid());
+        if (userRequest == null) {
             userMapper.insertByOpneid(jscode2SessionResult.getOpenid());
-            userRequest=userMapper.selectByOpenid(jscode2SessionResult.getOpenid());
+            userRequest = userMapper.selectByOpenid(jscode2SessionResult.getOpenid());
         }
         return userRequest;
 
     }
 
-    public void wcatLogin(HttpServletRequest request, HttpServletResponse response, String requestURL){
+    public void wcatLogin(HttpServletRequest request, HttpServletResponse response, String requestURL) {
         try {
-            String backUrl= "/users/wx/callBack";
-            String requestUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+
-                    "&redirect_uri="+ URLEncoder.encode(backUrl, "UTF-8") +
+            String backUrl = "/users/wx/callBack";
+            String requestUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
+                    "&redirect_uri=" + URLEncoder.encode(backUrl, "UTF-8") +
                     "&response_type=code" +
                     "&scope=snsapi_userinfo" +
-                    "&state="+ requestURL;
+                    "&state=" + requestURL;
             response.sendRedirect(requestUrl);
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,11 +67,12 @@ public class WxService extends WxTools {
 
     public BaseResponse buid(WxUserRequest request) {
 
-        if (userMapper.updateByUser(request)>0){
-            return BaseResponse.of(StatusCodeEnum.SUCCESS,"修改成功",request);
+        if (userMapper.updateByUser(request) > 0) {
+            return BaseResponse.of(StatusCodeEnum.SUCCESS, "修改成功", request);
         }
         return BaseResponse.error("修改失败");
     }
+
     public BaseResponse user(WxUserRequest request) {
 
         return BaseResponse.of(userMapper.selectByUserId(request.getUserId()));

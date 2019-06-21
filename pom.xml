@@ -50,14 +50,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <!--
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
-            -->
+
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                    <!--<groupId>org.springframework.boot</groupId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+
         </dependency>
         <!-- SpringBoot的依赖配置-->
         <dependency>
@@ -203,11 +203,11 @@
         </dependency>
 
         <!-- Jackson字符串转换成 -->
-        <!--  <dependency>
+          <dependency>
               <groupId>com.alibaba</groupId>
               <artifactId>fastjson</artifactId>
               <version>1.2.18</version>
-          </dependency>-->
+          </dependency>
 
         <!-- 开源多维码生成工具 -->
         <dependency>
