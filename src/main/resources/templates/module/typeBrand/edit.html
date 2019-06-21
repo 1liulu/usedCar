@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改车辆类型和车辆品牌关联')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-typeBrand-edit" th:object="${typeBrand}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">车辆类型：</label>
+				<div class="col-sm-8">
+					<select name="typeId" id="typeId"  class="form-control m-b" th:with="type=${@carType.getTypeList()}" th:field="*{typeId}">
+						<option value="">所有</option>
+						<option th:each="carType:${type}" th:value="${carType.typeId}" th:text="${carType.typeName}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">品牌类型：</label>
+				<div class="col-sm-8">
+					<select name="brandId" id="brandId"  class="form-control m-b" th:with="type=${@brand.getBrandLevelList('')}" th:field="*{brandId}">
+						<option value="">所有</option>
+						<option th:each="brand:${type}" th:value="${brand.brandId}" th:text="${brand.brandName}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "module/typeBrand";
+		$("#form-typeBrand-edit").validate({
+			rules:{
+				typeId:{
+					required:true,
+				},
+				brandId:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-typeBrand-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

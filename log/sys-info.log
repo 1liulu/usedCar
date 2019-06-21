@@ -1,0 +1,20 @@
+10:17:26.516 [restartedMain] INFO  c.c.RuoYiApplication - [logStarting,50] - Starting RuoYiApplication on DESKTOP-MFL0G56 with PID 11876 (G:\hy\userCar\target\classes started by mayn in G:\hy\userCar)
+10:17:26.519 [restartedMain] DEBUG c.c.RuoYiApplication - [logStarting,53] - Running with Spring Boot v2.0.5.RELEASE, Spring v5.0.9.RELEASE
+10:17:26.520 [restartedMain] INFO  c.c.RuoYiApplication - [logStartupProfileInfo,684] - The following profiles are active: druid
+10:17:26.696 [background-preinit] WARN  o.s.h.c.j.Jackson2ObjectMapperBuilder - [registerWellKnownModulesIfAvailable,771] - For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+10:17:27.736 [restartedMain] WARN  o.m.s.m.ClassPathMapperScanner - [doScan,166] - No MyBatis mapper was found in '[com.car.*.mapper]' package. Please check your configuration.
+10:17:29.003 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,158] - Cache with name 'com.car.framework.shiro.realm.UserRealm.authorizationCache' does not yet exist.  Creating now.
+10:17:29.004 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,165] - Added EhCache named [com.car.framework.shiro.realm.UserRealm.authorizationCache]
+10:17:29.851 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [loginRecordCache]
+10:17:30.843 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,180] - Initializing ProtocolHandler ["http-nio-4070"]
+10:17:30.866 [restartedMain] INFO  o.a.c.c.StandardService - [log,180] - Starting service [Tomcat]
+10:17:30.867 [restartedMain] INFO  o.a.c.c.StandardEngine - [log,180] - Starting Servlet Engine: Apache Tomcat/8.5.34
+10:17:30.877 [localhost-startStop-1] INFO  o.a.c.c.AprLifecycleListener - [log,180] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_162\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Python2.7\;C:\Program Files\Python2.7\Scripts;E:\software\maven\apache-maven-3.5.3\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Common Files\microsoft shared\TigerKin;E:\software\Git\cmd;E:\software\OpenSSL-Win64\bin;E:\software\nodejs\;E:\software\TortoiseSVN\bin;E:\software\SVN\VisualSVN Server\bin;C:\Users\mayn\AppData\Local\Microsoft\WindowsApps;C:\Users\mayn\AppData\Roaming\npm;C:\Users\mayn\AppData\Local\BypassRuntm;.]
+10:17:31.009 [localhost-startStop-1] INFO  o.a.c.c.C.[.[.[/] - [log,180] - Initializing Spring embedded WebApplicationContext
+10:17:32.401 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - [initHandlerMethods,69] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+10:17:33.454 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - [start,147] - Context refreshed
+10:17:33.474 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - [start,150] - Found 1 custom documentation plugin(s)
+10:17:33.534 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner - [scan,41] - Scanning for api listing references
+10:17:33.681 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,180] - Starting ProtocolHandler ["http-nio-4070"]
+10:17:33.690 [restartedMain] INFO  o.a.t.u.n.NioSelectorPool - [log,180] - Using a shared selector for servlet write/read
+10:17:33.710 [restartedMain] INFO  c.c.RuoYiApplication - [logStarted,59] - Started RuoYiApplication in 7.613 seconds (JVM running for 8.33)

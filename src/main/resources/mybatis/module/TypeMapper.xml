@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.module.type.mapper.TypeMapper">
+    
+    <resultMap type="Type" id="TypeResult">
+        <result property="typeId"    column="type_id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectTypeVo">
+        select type_id, type_name, create_time, update_time, status, remark from c_type
+    </sql>
+	
+    <select id="selectTypeList" parameterType="Type" resultMap="TypeResult">
+        <include refid="selectTypeVo"/>
+        <where>  
+            <if test="typeId != null "> and type_id = #{typeId}</if>
+             <if test="typeName != null  and typeName != '' "> and type_name like CONCAT('%',#{typeName},'%')</if>
+             <if test="createTime != null "> and create_time like CONCAT('%',DATE_FORMAT(#{createTime},'%Y-%m-%d'),'%')</if>
+             <if test="updateTime != null "> and update_time like CONCAT('%',DATE_FORMAT(#{updateTime},'%Y-%m-%d'),'%')</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and remark like CONCAT('%',#{remark},'%')</if>
+         </where>
+    </select>
+    
+    <select id="selectTypeById" parameterType="Long" resultMap="TypeResult">
+        <include refid="selectTypeVo"/>
+        where type_id = #{typeId}
+    </select>
+        
+    <insert id="insertType" parameterType="Type" useGeneratedKeys="true" keyProperty="typeId">
+        insert into c_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="typeName != null  and typeName != ''  ">type_name,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="typeName != null  and typeName != ''  ">#{typeName},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateType" parameterType="Type">
+        update c_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeName != null  and typeName != ''  ">type_name = #{typeName},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where type_id = #{typeId}
+    </update>
+
+	<delete id="deleteTypeById" parameterType="Long">
+        delete from c_type where type_id = #{typeId}
+    </delete>
+	
+    <delete id="deleteTypeByIds" parameterType="String">
+        delete from c_type where type_id in 
+        <foreach item="typeId" collection="array" open="(" separator="," close=")">
+            #{typeId}
+        </foreach>
+    </delete>
+
+    <update id="disableTypeByIds" parameterType="String">
+        update c_type
+        set status=1,
+        update_time=now()
+        where type_id in
+        <foreach item="typeId" collection="array" open="(" separator="," close=")">
+            #{typeId}
+        </foreach>
+    </update>
+
+    <update id="enableTypeByIds" parameterType="String">
+        update c_type
+        set status=0,
+        update_time=now()
+        where type_id in
+        <foreach item="typeId" collection="array" open="(" separator="," close=")">
+            #{typeId}
+        </foreach>
+    </update>
+    
+</mapper>

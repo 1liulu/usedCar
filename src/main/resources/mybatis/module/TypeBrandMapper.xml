@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.module.typeBrand.mapper.TypeBrandMapper">
+    
+    <resultMap type="TypeBrand" id="TypeBrandResult">
+        <result property="id"    column="id"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectTypeBrandVo">
+        select id, type_id, brand_id, create_time, update_time, status, remark from c_type_brand
+    </sql>
+	
+    <select id="selectTypeBrandList" parameterType="TypeBrand" resultMap="TypeBrandResult">
+        select tb.id, tb.type_id,t.type_name, tb.brand_id,b.brand_name, tb.create_time, tb.update_time, tb.status, tb.remark from c_type_brand tb
+        left join c_type t on tb.type_id=t.type_id
+        left join c_brand b on tb.brand_id=b.brand_id
+        <where>  
+            <if test="id != null "> and tb.id = #{id}</if>
+             <if test="typeId != null "> and tb.type_id = #{typeId}</if>
+             <if test="brandId != null "> and tb.brand_id = #{brandId}</if>
+            <if test="createTime != null "> and tb.create_time like CONCAT('%',DATE_FORMAT(#{createTime},'%Y-%m-%d'),'%')</if>
+            <if test="updateTime != null "> and tb.update_time like CONCAT('%',DATE_FORMAT(#{updateTime},'%Y-%m-%d'),'%')</if>
+             <if test="status != null "> and tb.status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and tb.remark like CONCAT('%',#{remark},'%')</if>
+         </where>
+    </select>
+    
+    <select id="selectTypeBrandById" parameterType="Long" resultMap="TypeBrandResult">
+        <include refid="selectTypeBrandVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTypeBrand" parameterType="TypeBrand">
+        insert into c_type_brand
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="typeId != null  ">type_id,</if>
+			<if test="brandId != null  ">brand_id,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="typeId != null  ">#{typeId},</if>
+			<if test="brandId != null  ">#{brandId},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTypeBrand" parameterType="TypeBrand">
+        update c_type_brand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeId != null  ">type_id = #{typeId},</if>
+            <if test="brandId != null  ">brand_id = #{brandId},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteTypeBrandById" parameterType="Long">
+        delete from c_type_brand where id = #{id}
+    </delete>
+	
+    <delete id="deleteTypeBrandByIds" parameterType="String">
+        delete from c_type_brand where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="disableTypeBrandByIds" parameterType="String">
+        update c_type_brand
+        set status=1,
+        update_time=now()
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="enableTypeBrandByIds" parameterType="String">
+        update c_type_brand
+        set status=0,
+        update_time=now()
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+</mapper>

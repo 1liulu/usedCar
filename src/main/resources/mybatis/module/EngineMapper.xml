@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.module.engine.mapper.EngineMapper">
+    
+    <resultMap type="Engine" id="EngineResult">
+        <result property="engineId"    column="engine_id"    />
+        <result property="engineName"    column="engine_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectEngineVo">
+        select engine_id, engine_name, create_time, update_time, status, remark from c_engine
+    </sql>
+	
+    <select id="selectEngineList" parameterType="Engine" resultMap="EngineResult">
+        <include refid="selectEngineVo"/>
+        <where>  
+            <if test="engineId != null "> and engine_id = #{engineId}</if>
+             <if test="engineName != null  and engineName != '' "> and engine_name like CONCAT('%',#{engineName},'%')</if>
+             <if test="createTime != null "> and create_time like CONCAT('%',DATE_FORMAT(#{createTime},'%Y-%m-%d'),'%')</if>
+             <if test="updateTime != null "> and update_time like CONCAT('%',DATE_FORMAT(#{updateTime},'%Y-%m-%d'),'%')</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and remark like CONCAT('%',#{remark},'%')</if>
+         </where>
+    </select>
+    
+    <select id="selectEngineById" parameterType="Long" resultMap="EngineResult">
+        <include refid="selectEngineVo"/>
+        where engine_id = #{engineId}
+    </select>
+        
+    <insert id="insertEngine" parameterType="Engine">
+        insert into c_engine
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="engineName != null  and engineName != ''  ">engine_name,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="engineName != null  and engineName != ''  ">#{engineName},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateEngine" parameterType="Engine">
+        update c_engine
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="engineName != null  and engineName != ''  ">engine_name = #{engineName},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where engine_id = #{engineId}
+    </update>
+
+	<delete id="deleteEngineById" parameterType="Long">
+        delete from c_engine where engine_id = #{engineId}
+    </delete>
+	
+    <delete id="deleteEngineByIds" parameterType="String">
+        delete from c_engine where engine_id in
+        <foreach item="engineId" collection="array" open="(" separator="," close=")">
+            #{engineId}
+        </foreach>
+    </delete>
+
+    <update id="disableEngineByIds" parameterType="String">
+        update c_engine
+         set status=1,
+        update_time=now()
+         where engine_id in
+        <foreach item="engineId" collection="array" open="(" separator="," close=")">
+            #{engineId}
+        </foreach>
+    </update>
+
+    <update id="enableEngineByIds" parameterType="String">
+        update c_engine
+        set status=0,
+        update_time=now()
+        where engine_id in
+        <foreach item="engineId" collection="array" open="(" separator="," close=")">
+            #{engineId}
+        </foreach>
+    </update>
+    
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.wx.sell.mapper.WxSellMapper">
+
+    <select id="searchSell" resultType="WxSellRequest">
+        select sell_id, user_id, user_name, user_phone, address_id, address, detailed_address, type_id, type_name, brand_id, brand_name, price, car_time, emission_standard, drive, engine_id, engine_name, fuel_type, horsepower, transfer_ownership, to_file, mileage, colour, feature, remark, create_time, update_time, status
+         from c_sell
+        <where>
+          status=0
+            <if test="sellId != null "> and sell_id = #{sellId}</if>
+            <if test="sellCode != null "> and sell_code = #{sellCode}</if>
+             <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="userPhone != null  and userPhone != '' "> and user_phone = #{userPhone}</if>
+             <if test="addressId != null "> and address_id = #{addressId}</if>
+             <if test="detailedAddress != null  and detailedAddress != '' "> and detailed_address = #{detailedAddress}</if>
+             <if test="typeId != null "> and type_id = #{typeId}</if>
+             <if test="brandId != null "> and brand_id = #{brandId}</if>
+             <if test="startPrice != null "> and price <![CDATA[>=]]> #{startPrice}</if>
+              <if test="endPrice != null "> and price <![CDATA[<=]]> #{endPrice}</if>
+             <if test="engineId != null "> and engine_id = #{engineId}</if>
+         </where>
+    </select>
+    
+    <select id="selectSellById" parameterType="Long" resultType="WxSellRequest">
+        select sell_id,sell_code, user_id, user_name, user_phone, address_id, address, detailed_address, type_id, type_name, brand_id, brand_name, price, car_time, emission_standard, drive, engine_id, engine_name, fuel_type, horsepower, transfer_ownership, to_file, mileage, colour, feature, remark, create_time, update_time, status from c_sell
+        where sell_id = #{sellId}
+    </select>
+        
+    <insert id="insertSell" parameterType="WxSellRequest" useGeneratedKeys="true" keyProperty="sellId">
+        insert into c_sell
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null  ">user_id,</if>
+			<if test="sellCode != null  ">sell_code,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="addressId != null  ">address_id,</if>
+			<if test="address != null  and address != ''  ">address,</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address,</if>
+			<if test="typeId != null  ">type_id,</if>
+			<if test="typeName != null  and typeName != ''  ">type_name,</if>
+			<if test="brandId != null  ">brand_id,</if>
+			<if test="brandName != null  and brandName != ''  ">brand_name,</if>
+			<if test="price != null  ">price,</if>
+			<if test="carTime != null  ">car_time,</if>
+			<if test="emissionStandard != null  and emissionStandard != ''  ">emission_standard,</if>
+			<if test="drive != null  and drive != ''  ">drive,</if>
+			<if test="engineId != null  ">engine_id,</if>
+			<if test="engineName != null  and engineName != ''  ">engine_name,</if>
+			<if test="fuelType != null  and fuelType != ''  ">fuel_type,</if>
+			<if test="horsepower != null  and horsepower != ''  ">horsepower,</if>
+			<if test="transferOwnership != null  ">transfer_ownership,</if>
+			<if test="toFile != null  ">to_file,</if>
+			<if test="mileage != null  ">mileage,</if>
+			<if test="colour != null  and colour != ''  ">colour,</if>
+			<if test="feature != null  and feature != ''  ">feature,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null  ">#{userId},</if>
+			<if test="sellCode != null  ">#{sellCode},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="addressId != null  ">#{addressId},</if>
+			<if test="address != null  and address != ''  ">#{address},</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">#{detailedAddress},</if>
+			<if test="typeId != null  ">#{typeId},</if>
+			<if test="typeName != null  and typeName != ''  ">#{typeName},</if>
+			<if test="brandId != null  ">#{brandId},</if>
+			<if test="brandName != null  and brandName != ''  ">#{brandName},</if>
+			<if test="price != null  ">#{price},</if>
+			<if test="carTime != null  ">#{carTime},</if>
+			<if test="emissionStandard != null  and emissionStandard != ''  ">#{emissionStandard},</if>
+			<if test="drive != null  and drive != ''  ">#{drive},</if>
+			<if test="engineId != null  ">#{engineId},</if>
+			<if test="engineName != null  and engineName != ''  ">#{engineName},</if>
+			<if test="fuelType != null  and fuelType != ''  ">#{fuelType},</if>
+			<if test="horsepower != null  and horsepower != ''  ">#{horsepower},</if>
+			<if test="transferOwnership != null  ">#{transferOwnership},</if>
+			<if test="toFile != null  ">#{toFile},</if>
+			<if test="mileage != null  ">#{mileage},</if>
+			<if test="colour != null  and colour != ''  ">#{colour},</if>
+			<if test="feature != null  and feature != ''  ">#{feature},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSell" parameterType="WxSellRequest">
+        update c_sell
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="sellCode != null  ">sell_code = #{sellCode},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="addressId != null  ">address_id = #{addressId},</if>
+            <if test="address != null  and address != ''  ">address = #{address},</if>
+            <if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address = #{detailedAddress},</if>
+            <if test="typeId != null  ">type_id = #{typeId},</if>
+            <if test="typeName != null  and typeName != ''  ">type_name = #{typeName},</if>
+            <if test="brandId != null  ">brand_id = #{brandId},</if>
+            <if test="brandName != null  and brandName != ''  ">brand_name = #{brandName},</if>
+            <if test="price != null  ">price = #{price},</if>
+            <if test="carTime != null  ">car_time = #{carTime},</if>
+            <if test="emissionStandard != null  and emissionStandard != ''  ">emission_standard = #{emissionStandard},</if>
+            <if test="drive != null  and drive != ''  ">drive = #{drive},</if>
+            <if test="engineId != null  ">engine_id = #{engineId},</if>
+            <if test="engineName != null  and engineName != ''  ">engine_name = #{engineName},</if>
+            <if test="fuelType != null  and fuelType != ''  ">fuel_type = #{fuelType},</if>
+            <if test="horsepower != null  and horsepower != ''  ">horsepower = #{horsepower},</if>
+            <if test="transferOwnership != null  ">transfer_ownership = #{transferOwnership},</if>
+            <if test="toFile != null  ">to_file = #{toFile},</if>
+            <if test="mileage != null  ">mileage = #{mileage},</if>
+            <if test="colour != null  and colour != ''  ">colour = #{colour},</if>
+            <if test="feature != null  and feature != ''  ">feature = #{feature},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+        </trim>
+        where sell_id = #{sellId}
+    </update>
+
+	<delete id="deleteSellById" parameterType="Long">
+        delete from c_sell where sell_id = #{sellId}
+    </delete>
+	
+    <update id="deleteSellByIds" parameterType="String">
+        update c_sell set status=1 where sell_id in
+        <foreach item="sellId" collection="array" open="(" separator="," close=")">
+            #{sellId}
+        </foreach>
+    </update>
+
+    <select id="selectBySellWxList" resultType="com.car.project.wx.sell.domain.WxSellEntity">
+        select s.sell_id, s.user_id, s.user_name, s.user_phone, s.address_id, s.address, s.detailed_address, s.type_id, s.type_name,
+        s.brand_id,s.brand_name, s.price, s.car_time, s.emission_standard, s.drive, s.engine_id, s.engine_name, s.fuel_type,
+        s.horsepower, s.transfer_ownership,s.to_file, s.mileage, s.colour, s.feature, s.remark, s.create_time, s.update_time,
+        s.status,b1.brand_id as p_id,b1.brand_name as p_name,u.upload_path
+        from c_sell s
+        left join c_brand b on s.brand_id=b.brand_id
+        left join c_brand b1 on b.p_id=b1.brand_id
+        LEFT JOIN (select sell_code,upload_path from c_sell_upload where status=0 GROUP BY sell_code) u on u.sell_code=s.sell_code
+        <where>
+            s.status=0
+            <if test="addressId!=null">
+                and s.address_id=#{addressId}
+            </if>
+            <if test="keywords!=null and keywords!=''">
+                and (s.type_name like concat('%',#{keywords},'%') or s.price like concat('%',#{keywords},'%') or s.brand_name like concat('%',#{keywords},'%'))
+            </if>
+            <if test="typeId!=null">
+                and s.type_id=#{typeId}
+            </if>
+            <if test="brandId!=null">
+                and s.brand_id=#{brandId}
+            </if>
+            <if test="startPrice!=null">
+                and <![CDATA[s.price >= startPrice]]>
+            </if>
+            <if test="endPrice!=null">
+                and <![CDATA[s.price <= endPrice]]>
+            </if>
+            <if test="userId!=null">
+                and s.user_id=#{userId}
+            </if>
+            <if test="pId!=null">
+                and b.p_id=#{pId}
+            </if>
+        </where>
+    </select>
+    
+</mapper>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.wx.buy.mapper.WxBuyMapper">
+    
+    <resultMap type="WxBuyEntity" id="BuyResult">
+        <result property="buyId"    column="buy_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="horsepower"    column="horsepower"    />
+        <result property="amount"    column="amount"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="address"    column="address"    />
+        <result property="detailedAddress"    column="detailed_address"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectBuyVo">
+        select buy_id, user_id, brand_id, brand_name, type_id, type_name, start_time, end_time, horsepower, amount, user_name, user_phone, address_id, address, detailed_address, create_time, update_time, status, remark from c_buy
+    </sql>
+	
+    <select id="selectBuyList" parameterType="WxBuyRequest" resultMap="BuyResult">
+        <include refid="selectBuyVo"/>
+        <where>  
+            <if test="buyId != null "> and buy_id = #{buyId}</if>
+             <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="brandId != null "> and brand_id = #{brandId}</if>
+             <if test="brandName != null  and brandName != '' "> and brand_name like CONCAT('%',#{brandName},'%')</if>
+             <if test="typeId != null "> and type_id = #{typeId}</if>
+             <if test="typeName != null  and typeName != '' "> and type_name like CONCAT('%',#{typeName},'%')</if>
+             <if test="startTime != null "> and start_time like CONCAT('%',DATE_FORMAT(#{startTime},'%Y-%m-%d'),'%')</if>
+             <if test="endTime != null "> and end_time like CONCAT('%',DATE_FORMAT(#{endTime},'%Y-%m-%d'),'%')</if>
+             <if test="horsepower != null  and horsepower != '' "> and horsepower =#{horsepower}</if>
+             <if test="amount != null "> and amount =#{amount}</if>
+             <if test="userName != null  and userName != '' "> and user_name like CONCAT('%',#{userName},'%')</if>
+             <if test="userPhone != null  and userPhone != '' "> and user_phone like CONCAT('%',#{userPhone},'%')</if>
+             <if test="addressId != null "> and address_id = #{addressId}</if>
+             <if test="address != null  and address != '' "> and address like CONCAT('%',#{address},'%')</if>
+             <if test="detailedAddress != null  and detailedAddress != '' "> and detailed_address like CONCAT('%',#{detailedAddress},'%')</if>
+             <if test="createTime != null "> and create_time like CONCAT('%',DATE_FORMAT(#{createTime},'%Y-%m-%d'),'%')</if>
+             <if test="updateTime != null "> and update_time like CONCAT('%',DATE_FORMAT(#{updateTime},'%Y-%m-%d'),'%')</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and remark like CONCAT('%',#{remark},'%')</if>
+         </where>
+    </select>
+    
+    <select id="selectBuyById" parameterType="Long" resultMap="BuyResult">
+        <include refid="selectBuyVo"/>
+        where buy_id = #{buyId}
+    </select>
+        
+    <insert id="insertBuy" parameterType="WxBuyRequest" useGeneratedKeys="true" keyProperty="buyId">
+        insert into c_buy
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null  ">user_id,</if>
+			<if test="brandId != null  ">brand_id,</if>
+			<if test="brandName != null  and brandName != ''  ">brand_name,</if>
+			<if test="typeId != null  ">type_id,</if>
+			<if test="typeName != null  and typeName != ''  ">type_name,</if>
+			<if test="startTime != null  ">start_time,</if>
+			<if test="endTime != null  ">end_time,</if>
+			<if test="horsepower != null  and horsepower != ''  ">horsepower,</if>
+			<if test="amount != null  ">amount,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="addressId != null  ">address_id,</if>
+			<if test="address != null  and address != ''  ">address,</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null  ">#{userId},</if>
+			<if test="brandId != null  ">#{brandId},</if>
+			<if test="brandName != null  and brandName != ''  ">#{brandName},</if>
+			<if test="typeId != null  ">#{typeId},</if>
+			<if test="typeName != null  and typeName != ''  ">#{typeName},</if>
+			<if test="startTime != null  ">#{startTime},</if>
+			<if test="endTime != null  ">#{endTime},</if>
+			<if test="horsepower != null  and horsepower != ''  ">#{horsepower},</if>
+			<if test="amount != null  ">#{amount},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="addressId != null  ">#{addressId},</if>
+			<if test="address != null  and address != ''  ">#{address},</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">#{detailedAddress},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateBuy" parameterType="WxBuyRequest">
+        update c_buy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="brandId != null  ">brand_id = #{brandId},</if>
+            <if test="brandName != null  and brandName != ''  ">brand_name = #{brandName},</if>
+            <if test="typeId != null  ">type_id = #{typeId},</if>
+            <if test="typeName != null  and typeName != ''  ">type_name = #{typeName},</if>
+            <if test="startTime != null  ">start_time = #{startTime},</if>
+            <if test="endTime != null  ">end_time = #{endTime},</if>
+            <if test="horsepower != null  and horsepower != ''  ">horsepower = #{horsepower},</if>
+            <if test="amount != null  ">amount = #{amount},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="addressId != null  ">address_id = #{addressId},</if>
+            <if test="address != null  and address != ''  ">address = #{address},</if>
+            <if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address = #{detailedAddress},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where buy_id = #{buyId}
+    </update>
+
+	<delete id="deleteBuyById" parameterType="Long">
+        delete from c_buy where buy_id = #{buyId}
+    </delete>
+	
+    <delete id="deleteBuyByIds" parameterType="String">
+        delete from c_buy where buy_id in 
+        <foreach item="buyId" collection="array" open="(" separator="," close=")">
+            #{buyId}
+        </foreach>
+    </delete>
+
+
+    <select id="selectBuyWxList" parameterType="java.lang.Long" resultMap="BuyResult">
+        select buy_id, user_id, brand_id, brand_name, type_id, type_name, start_time, end_time, horsepower, amount, user_name, user_phone, address_id, address, detailed_address, create_time, update_time, status, remark
+        from c_buy
+        where
+         status=0
+         <if test="addressId!=null">
+             and address_id=#{addressId}
+         </if>
+
+    </select>
+
+    <select id="myByBuyList" parameterType="java.lang.Long" resultMap="BuyResult">
+        select buy_id, user_id, brand_id, brand_name, type_id, type_name, start_time, end_time, horsepower, amount, user_name, user_phone, address_id, address, detailed_address, create_time, update_time, status, remark
+        from c_buy
+        where
+         status=0
+         <if test="userId!=null">
+             and user_id=#{userId}
+         </if>
+
+    </select>
+    
+</mapper>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.module.sell.mapper.SellMapper">
+    
+    <resultMap type="Sell" id="SellResult">
+        <result property="sellId"    column="sell_id"    />
+        <result property="sellCode"    column="sell_code"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="address"    column="address"    />
+        <result property="detailedAddress"    column="detailed_address"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="price"    column="price"    />
+        <result property="carTime"    column="car_time"    />
+        <result property="emissionStandard"    column="emission_standard"    />
+        <result property="drive"    column="drive"    />
+        <result property="engineId"    column="engine_id"    />
+        <result property="engineName"    column="engine_name"    />
+        <result property="fuelType"    column="fuel_type"    />
+        <result property="horsepower"    column="horsepower"    />
+        <result property="transferOwnership"    column="transfer_ownership"    />
+        <result property="toFile"    column="to_file"    />
+        <result property="mileage"    column="mileage"    />
+        <result property="colour"    column="colour"    />
+        <result property="feature"    column="feature"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectSellVo">
+        select sell_id,sell_code, user_id, user_name, user_phone, address_id, address, detailed_address, type_id, type_name, brand_id, brand_name, price, car_time, emission_standard, drive, engine_id, engine_name, fuel_type, horsepower, transfer_ownership, to_file, mileage, colour, feature, remark, create_time, update_time, status from c_sell
+    </sql>
+	
+    <select id="selectSellList" parameterType="Sell" resultMap="SellResult">
+        <include refid="selectSellVo"/>
+        <where>  
+            <if test="sellId != null "> and sell_id = #{sellId}</if>
+            <if test="sellCode != null "> and sell_code = #{sellCode}</if>
+             <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="userPhone != null  and userPhone != '' "> and user_phone = #{userPhone}</if>
+             <if test="addressId != null "> and address_id = #{addressId}</if>
+             <if test="address != null  and address != '' "> and address = #{address}</if>
+             <if test="detailedAddress != null  and detailedAddress != '' "> and detailed_address = #{detailedAddress}</if>
+             <if test="typeId != null "> and type_id = #{typeId}</if>
+             <if test="typeName != null  and typeName != '' "> and type_name = #{typeName}</if>
+             <if test="brandId != null "> and brand_id = #{brandId}</if>
+             <if test="brandName != null  and brandName != '' "> and brand_name = #{brandName}</if>
+             <if test="price != null "> and price = #{price}</if>
+             <if test="carTime != null "> and car_time = #{carTime}</if>
+             <if test="emissionStandard != null  and emissionStandard != '' "> and emission_standard = #{emissionStandard}</if>
+             <if test="drive != null  and drive != '' "> and drive = #{drive}</if>
+             <if test="engineId != null "> and engine_id = #{engineId}</if>
+             <if test="engineName != null  and engineName != '' "> and engine_name = #{engineName}</if>
+             <if test="fuelType != null  and fuelType != '' "> and fuel_type = #{fuelType}</if>
+             <if test="horsepower != null  and horsepower != '' "> and horsepower = #{horsepower}</if>
+             <if test="transferOwnership != null "> and transfer_ownership = #{transferOwnership}</if>
+             <if test="toFile != null "> and to_file = #{toFile}</if>
+             <if test="mileage != null "> and mileage = #{mileage}</if>
+             <if test="colour != null  and colour != '' "> and colour = #{colour}</if>
+             <if test="feature != null  and feature != '' "> and feature = #{feature}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="status != null "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectSellById" parameterType="Long" resultMap="SellResult">
+        <include refid="selectSellVo"/>
+        where sell_id = #{sellId}
+    </select>
+        
+    <insert id="insertSell" parameterType="Sell" useGeneratedKeys="true" keyProperty="sellId">
+        insert into c_sell
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null  ">user_id,</if>
+			<if test="sellCode != null  ">sell_code,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="addressId != null  ">address_id,</if>
+			<if test="address != null  and address != ''  ">address,</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address,</if>
+			<if test="typeId != null  ">type_id,</if>
+			<if test="typeName != null  and typeName != ''  ">type_name,</if>
+			<if test="brandId != null  ">brand_id,</if>
+			<if test="brandName != null  and brandName != ''  ">brand_name,</if>
+			<if test="price != null  ">price,</if>
+			<if test="carTime != null  ">car_time,</if>
+			<if test="emissionStandard != null  and emissionStandard != ''  ">emission_standard,</if>
+			<if test="drive != null  and drive != ''  ">drive,</if>
+			<if test="engineId != null  ">engine_id,</if>
+			<if test="engineName != null  and engineName != ''  ">engine_name,</if>
+			<if test="fuelType != null  and fuelType != ''  ">fuel_type,</if>
+			<if test="horsepower != null  and horsepower != ''  ">horsepower,</if>
+			<if test="transferOwnership != null  ">transfer_ownership,</if>
+			<if test="toFile != null  ">to_file,</if>
+			<if test="mileage != null  ">mileage,</if>
+			<if test="colour != null  and colour != ''  ">colour,</if>
+			<if test="feature != null  and feature != ''  ">feature,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null  ">#{userId},</if>
+			<if test="sellCode != null  ">#{sellCode},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="addressId != null  ">#{addressId},</if>
+			<if test="address != null  and address != ''  ">#{address},</if>
+			<if test="detailedAddress != null  and detailedAddress != ''  ">#{detailedAddress},</if>
+			<if test="typeId != null  ">#{typeId},</if>
+			<if test="typeName != null  and typeName != ''  ">#{typeName},</if>
+			<if test="brandId != null  ">#{brandId},</if>
+			<if test="brandName != null  and brandName != ''  ">#{brandName},</if>
+			<if test="price != null  ">#{price},</if>
+			<if test="carTime != null  ">#{carTime},</if>
+			<if test="emissionStandard != null  and emissionStandard != ''  ">#{emissionStandard},</if>
+			<if test="drive != null  and drive != ''  ">#{drive},</if>
+			<if test="engineId != null  ">#{engineId},</if>
+			<if test="engineName != null  and engineName != ''  ">#{engineName},</if>
+			<if test="fuelType != null  and fuelType != ''  ">#{fuelType},</if>
+			<if test="horsepower != null  and horsepower != ''  ">#{horsepower},</if>
+			<if test="transferOwnership != null  ">#{transferOwnership},</if>
+			<if test="toFile != null  ">#{toFile},</if>
+			<if test="mileage != null  ">#{mileage},</if>
+			<if test="colour != null  and colour != ''  ">#{colour},</if>
+			<if test="feature != null  and feature != ''  ">#{feature},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSell" parameterType="Sell">
+        update c_sell
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="sellCode != null  ">sell_code = #{sellCode},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="addressId != null  ">address_id = #{addressId},</if>
+            <if test="address != null  and address != ''  ">address = #{address},</if>
+            <if test="detailedAddress != null  and detailedAddress != ''  ">detailed_address = #{detailedAddress},</if>
+            <if test="typeId != null  ">type_id = #{typeId},</if>
+            <if test="typeName != null  and typeName != ''  ">type_name = #{typeName},</if>
+            <if test="brandId != null  ">brand_id = #{brandId},</if>
+            <if test="brandName != null  and brandName != ''  ">brand_name = #{brandName},</if>
+            <if test="price != null  ">price = #{price},</if>
+            <if test="carTime != null  ">car_time = #{carTime},</if>
+            <if test="emissionStandard != null  and emissionStandard != ''  ">emission_standard = #{emissionStandard},</if>
+            <if test="drive != null  and drive != ''  ">drive = #{drive},</if>
+            <if test="engineId != null  ">engine_id = #{engineId},</if>
+            <if test="engineName != null  and engineName != ''  ">engine_name = #{engineName},</if>
+            <if test="fuelType != null  and fuelType != ''  ">fuel_type = #{fuelType},</if>
+            <if test="horsepower != null  and horsepower != ''  ">horsepower = #{horsepower},</if>
+            <if test="transferOwnership != null  ">transfer_ownership = #{transferOwnership},</if>
+            <if test="toFile != null  ">to_file = #{toFile},</if>
+            <if test="mileage != null  ">mileage = #{mileage},</if>
+            <if test="colour != null  and colour != ''  ">colour = #{colour},</if>
+            <if test="feature != null  and feature != ''  ">feature = #{feature},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+        </trim>
+        where sell_id = #{sellId}
+    </update>
+
+	<delete id="deleteSellById" parameterType="Long">
+        delete from c_sell where sell_id = #{sellId}
+    </delete>
+	
+    <delete id="deleteSellByIds" parameterType="String">
+        delete from c_sell where sell_id in 
+        <foreach item="sellId" collection="array" open="(" separator="," close=")">
+            #{sellId}
+        </foreach>
+    </delete>
+    
+</mapper>

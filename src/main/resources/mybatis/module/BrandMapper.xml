@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.module.brand.mapper.BrandMapper">
+    
+    <resultMap type="Brand" id="BrandResult">
+        <result property="brandId"    column="brand_id"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="pId"    column="p_id"    />
+        <result property="pName"    column="p_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectBrandVo">
+        select brand_id, brand_name, p_id, create_time, update_time, status, remark from c_brand
+    </sql>
+	
+    <select id="selectBrandList" parameterType="Brand" resultMap="BrandResult">
+        select c.brand_id, c.brand_name, c.p_id, c1.brand_name as p_name, c.create_time, c.update_time, c.status, c.remark from c_brand c
+        left join c_brand c1 on c.p_id=c1.brand_id
+        <where>  
+            <if test="brandId != null "> and c.brand_id = #{brandId}</if>
+             <if test="brandName != null  and brandName != '' "> and c.brand_name like CONCAT('%',#{brandName},'%')</if>
+             <if test="pId != null "> and c.p_id = #{pId}</if>
+             <if test="createTime != null "> and c.create_time like CONCAT('%',DATE_FORMAT(#{createTime},'%Y-%m-%d'),'%')</if>
+             <if test="updateTime != null "> and c.update_time like CONCAT('%',DATE_FORMAT(#{updateTime},'%Y-%m-%d'),'%')</if>
+             <if test="status != null "> and c.status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and c.remark like CONCAT('%',#{remark},'%')</if>
+         </where>
+        ORDER BY c.p_id ASC,c.brand_id ASC
+    </select>
+    
+    <select id="selectBrandById" parameterType="Long" resultMap="BrandResult">
+        select c.brand_id, c.brand_name, c.p_id, c1.brand_name as p_name, c.create_time, c.update_time, c.status, c.remark from c_brand c
+        left join c_brand c1 on c.p_id=c1.brand_id
+        where c.brand_id = #{brandId}
+    </select>
+        
+    <insert id="insertBrand" parameterType="Brand" useGeneratedKeys="true" keyProperty="brandId">
+        insert into c_brand
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="brandName != null  and brandName != ''  ">brand_name,</if>
+			<if test="pId != null  ">p_id,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="brandName != null  and brandName != ''  ">#{brandName},</if>
+			<if test="pId != null  ">#{pId},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateBrand" parameterType="Brand">
+        update c_brand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="brandName != null  and brandName != ''  ">brand_name = #{brandName},</if>
+            <if test="pId != null  ">p_id = #{pId},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where brand_id = #{brandId}
+    </update>
+
+	<delete id="deleteBrandById" parameterType="Long">
+        delete from c_brand where brand_id = #{brandId}
+    </delete>
+	
+    <delete id="deleteBrandByIds" parameterType="String">
+        delete from c_brand where brand_id in 
+        <foreach item="brandId" collection="array" open="(" separator="," close=")">
+            #{brandId}
+        </foreach>
+    </delete>
+
+    <select id="selectByBrandPId" resultMap="BrandResult">
+        select * from c_brand
+        where p_id is null
+        and status=0
+    </select>
+
+    <update id="disableBrandByIds" parameterType="String">
+        update c_brand
+        set status=1,
+        update_time=now()
+        where brand_id in
+        <foreach item="brandId" collection="array" open="(" separator="," close=")">
+            #{brandId}
+        </foreach>
+        or p_id in
+        <foreach item="pId" collection="array" open="(" separator="," close=")">
+            #{pId}
+        </foreach>
+    </update>
+
+    <update id="enableBrandByIds" parameterType="String">
+        update c_brand
+        set status=0,
+        update_time=now()
+        where brand_id in
+        <foreach item="brandId" collection="array" open="(" separator="," close=")">
+            #{brandId}
+        </foreach>
+        or
+        brand_id in (
+        SELECT  c.p_id FROM
+        (
+        SELECT b.p_id FROM c_brand b
+        WHERE
+        b.brand_id IN
+        <foreach item="pId" collection="array" open="(" separator="," close=")">
+            #{pId}
+        </foreach>
+        AND b.p_id IS NOT NULL
+        ) c
+        GROUP BY c.p_id
+        )
+
+    </update>
+
+    <select id="selectBrandLevelList" parameterType="Brand" resultMap="BrandResult">
+        select c.brand_id, c.brand_name, c.p_id, c1.brand_name as p_name, c.create_time, c.update_time, c.status, c.remark from c_brand c
+        left join c_brand c1 on c.p_id=c1.brand_id
+        <where>
+            c.status=0
+            <if test="pId ==null or pId ==''">
+                and c.p_id is not null or c.p_id !=''
+            </if>
+            <if test="pId !=null and pId !=''">
+                and c.p_id=#{pId}
+            </if>
+        </where>
+    </select>
+    
+</mapper>

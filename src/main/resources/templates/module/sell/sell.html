@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('用户卖车列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<!--<li>-->
+								<!--发布用户id：<input type="text" name="userId"/>-->
+							<!--</li>-->
+
+							<li>
+								联系人姓名：<input type="text" name="userName"/>
+							</li>
+
+							<li>
+								联系人手机号：<input type="text" name="userPhone"/>
+							</li>
+
+							<!--<li>-->
+								<!--交易地址id：<input type="text" name="addressId"/>-->
+							<!--</li>-->
+
+							<!--<li>-->
+								<!--交易地址：<input type="text" name="address"/>-->
+							<!--</li>-->
+
+							<li>
+								交易详细地址：<input type="text" name="detailedAddress"/>
+							</li>
+
+							<li>
+								车型id：<input type="text" name="typeId"/>
+							</li>
+
+							<!--<li>-->
+								<!--车型：<input type="text" name="typeName"/>-->
+							<!--</li>-->
+
+							<li>
+								车辆品牌id：<input type="text" name="brandId"/>
+							</li>
+
+							<!--<li>-->
+								<!--车辆品牌：<input type="text" name="brandName"/>-->
+							<!--</li>-->
+
+							<li>
+								车辆价格：<input type="text" name="price"/>
+							</li>
+
+							<li>
+								车辆年份：<input type="text" name="carTime"/>
+							</li>
+
+							<li>
+								排放标准：<input type="text" name="emissionStandard"/>
+							</li>
+
+							<li>
+								驱动形式：<input type="text" name="drive"/>
+							</li>
+
+							<li>
+								发动机id：<input type="text" name="engineId"/>
+							</li>
+
+							<!--<li>-->
+								<!--发动机品牌：<input type="text" name="engineName"/>-->
+							<!--</li>-->
+
+							<li>
+								燃料类型：<input type="text" name="fuelType"/>
+							</li>
+
+							<li>
+								马力匹数  ：<input type="text" name="horsepower"/>
+							</li>
+
+							<li>
+								是否可过户：
+								<select name="transferOwnership" th:with="type=${@dict.getType('c_yes_no')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+
+							<li>
+								是否可提档：
+								<select name="toFile" th:with="type=${@dict.getType('c_yes_no')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+
+							<li>
+								显示里程数：<input type="text" name="mileage"/>
+
+							</li>
+
+							<li>
+								车辆颜色：<input type="text" name="colour"/>
+							</li>
+
+							<li>
+								车辆特色：<input type="text" name="feature"/>
+							</li>
+
+							<li>
+								车辆说明：<input type="text" name="remark"/>
+							</li>
+
+							<li>
+								创建时间：<input type="date" name="createTime"/>
+							</li>
+
+							<li>
+								更新时间：<input type="date" name="updateTime"/>
+							</li>
+
+							<li>
+								状态：<select name="status" th:with="type=${@dict.getType('sys_normal_disable')}">
+								<option value="">所有</option>
+								<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+							</select>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <!--<div class="btn-group-sm" id="toolbar" role="group">-->
+				<!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="module:sell:add">-->
+					<!--<i class="fa fa-plus"></i> 添加-->
+				<!--</a>-->
+				<!--<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="module:sell:edit">-->
+					<!--<i class="fa fa-edit"></i> 修改-->
+				<!--</a>-->
+				<!--<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="module:sell:remove">-->
+					<!--<i class="fa fa-remove"></i> 删除-->
+				<!--</a>-->
+				<!--<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="module:sell:export">-->
+						<!--<i class="fa fa-download"></i> 导出-->
+				 <!--</a>-->
+			<!--</div>-->
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('module:sell:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('module:sell:remove')}]];
+		var statusDatas = [[${@dict.getType('sys_normal_disable')}]];
+		var flagDatas = [[${@dict.getType('c_yes_no')}]];
+        var prefix = ctx + "module/sell";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "用户卖车",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'sellId', 
+					title : 'id',
+					visible: false
+				},
+				{
+					field : 'userId', 
+					title : '发布用户id',
+					sortable: true,
+					visible:false
+				},
+				{
+					field : 'userName', 
+					title : '联系人姓名',
+					sortable: true
+				},
+				{
+					field : 'userPhone', 
+					title : '联系人手机号',
+					sortable: true
+				},
+				{
+					field : 'status',
+					title : '状态',
+					sortable: true,
+					formatter:function (value, row, index) {
+						return $.table.selectDictLabel(statusDatas, row.status);
+					}
+				},
+				{
+					field : 'addressId', 
+					title : '交易地址id',
+					sortable: true,
+					visible:false
+				},
+				{
+					field : 'address', 
+					title : '交易地址',
+					sortable: true
+				},
+				{
+					field : 'detailedAddress', 
+					title : '交易详细地址',
+					sortable: true
+				},
+				{
+					field : 'typeId', 
+					title : '车型id',
+					sortable: true,
+					visible:false
+				},
+				{
+					field : 'typeName', 
+					title : '车型',
+					sortable: true
+				},
+				{
+					field : 'brandId', 
+					title : '车辆品牌id',
+					sortable: true,
+					visible:false
+				},
+				{
+					field : 'brandName', 
+					title : '车辆品牌',
+					sortable: true
+				},
+				{
+					field : 'price', 
+					title : '车辆价格',
+					sortable: true
+				},
+				{
+					field : 'carTime', 
+					title : '车辆年份',
+					sortable: true
+				},
+				{
+					field : 'emissionStandard', 
+					title : '排放标准',
+					sortable: true
+				},
+				{
+					field : 'drive', 
+					title : '驱动形式',
+					sortable: true
+				},
+				{
+					field : 'engineId', 
+					title : '发动机id',
+					sortable: true,
+					visible:false
+				},
+				{
+					field : 'engineName', 
+					title : '发动机品牌',
+					sortable: true
+				},
+				{
+					field : 'fuelType', 
+					title : '燃料类型',
+					sortable: true
+				},
+				{
+					field : 'horsepower', 
+					title : '马力匹数  ',
+					sortable: true
+				},
+				{
+					field : 'transferOwnership', 
+					title : '是否可过户',
+					sortable: true,
+					formatter:function (value, row, index) {
+						return $.table.selectDictLabel(flagDatas, row.status);
+					}
+				},
+				{
+					field : 'toFile', 
+					title : '是否可提档',
+					sortable: true,
+					formatter:function (value, row, index) {
+						return $.table.selectDictLabel(flagDatas, row.status);
+					}
+				},
+				{
+					field : 'mileage', 
+					title : '显示里程数',
+					sortable: true
+				},
+				{
+					field : 'colour', 
+					title : '车辆颜色',
+					sortable: true
+				},
+				{
+					field : 'feature', 
+					title : '车辆特色',
+					sortable: true
+				},
+				{
+					field : 'remark', 
+					title : '车辆说明',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'updateTime', 
+					title : '更新时间',
+					sortable: true
+				}
+				// ,
+				//
+		        // {
+		        //     title: '操作',
+		        //     align: 'center',
+		        //     formatter: function(value, row, index) {
+		        //     	var actions = [];
+		        //     	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.sellId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                //         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.sellId + '\')"><i class="fa fa-remove"></i>删除</a>');
+				// 		return actions.join('');
+		        //     }
+		        // }
+				]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

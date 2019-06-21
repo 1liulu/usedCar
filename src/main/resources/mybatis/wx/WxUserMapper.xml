@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.wx.user.mapper.WxUserMapper">
+
+	<select id="getByOpenid" parameterType="String" resultType="com.car.project.wx.user.domain.WxUserRequest">
+		select user_id, dept_id, login_name, user_name, user_type, email, phonenumber, sex, avatar, password, salt, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, openid from sys_user where openid=#{openid} and del_flag=0
+	</select>
+
+	<select id="selectByOpenid" parameterType="String" resultType="com.car.project.wx.user.domain.WxUserRequest">
+		select user_id, user_name, phonenumber, sex, avatar,nick_name, remark, openid from sys_user where openid=#{openid} and del_flag=0
+	</select>
+
+	<insert id="insertByOpneid" parameterType="String">
+		insert into sys_user ( create_time, openid)
+		values (now(),#{openid})
+	</insert>
+
+	<update id="updateByUser" parameterType="com.car.project.wx.user.domain.WxUserRequest">
+		update sys_user
+		set user_name=#{userName},
+			avatar=#{avatar},
+			sex=#{sex},
+			nick_name=#{nickName},
+			remark=#{remark}
+		where user_id=#{userId}
+		and openid=#{openid}
+	</update>
+
+	<select id="selectByUserId" parameterType="String" resultType="com.car.project.wx.user.domain.WxUserRequest">
+		select user_id, dept_id, login_name, user_name, user_type, email, phonenumber, sex, avatar, password, salt, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, nick_name, openid from sys_user
+		where user_id=#{userId} and del_flag=0
+	</select>
+
+</mapper> 

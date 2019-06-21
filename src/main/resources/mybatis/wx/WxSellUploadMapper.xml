@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.wx.sell.mapper.WxSellUploadMapper">
+    
+    <resultMap type="WxSellUpload" id="SellUploadResult">
+        <result property="id"    column="id"    />
+        <result property="sellCode"    column="sell_code"    />
+        <result property="uploadPath"    column="upload_path"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectSellUploadVo">
+        select id, sell_code, upload_path, create_time, update_time,status from c_sell_upload
+    </sql>
+	
+    <select id="selectSellUploadList" parameterType="WxSellUpload" resultMap="SellUploadResult">
+        <include refid="selectSellUploadVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="sellCode != null "> and sell_code = #{sellCode}</if>
+             <if test="uploadPath != null  and uploadPath != '' "> and upload_path = #{uploadPath}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="status != null "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectSellUploadById" parameterType="Integer" resultMap="SellUploadResult">
+        <include refid="selectSellUploadVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSellUpload" parameterType="WxSellUpload" useGeneratedKeys="true" keyProperty="id">
+        insert into c_sell_upload
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sellCode != null  ">sell_code,</if>
+			<if test="uploadPath != null  and uploadPath != ''  ">upload_path,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sellCode != null  ">#{sellCode},</if>
+			<if test="uploadPath != null  and uploadPath != ''  ">#{uploadPath},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSellUpload" parameterType="WxSellUpload">
+        update c_sell_upload
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sellCode != null  ">sell_code = #{sellCode},</if>
+            <if test="uploadPath != null  and uploadPath != ''  ">upload_path = #{uploadPath},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteSellUploadById" parameterType="Integer">
+        delete from c_sell_upload where id = #{id}
+    </delete>
+
+    <delete id="deleteSellUploadBySellCode" parameterType="Integer">
+        delete from c_sell_upload where sell_code = #{sellCode}
+    </delete>
+	
+    <delete id="deleteSellUploadByIds" parameterType="String">
+        delete from c_sell_upload where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insertBySellUploads" parameterType="String">
+        insert into c_sell_upload(sell_code, upload_path, create_time)
+        <foreach item="item" collection="array" open="values(" separator="),(" close=")">
+            #{sellCode},#{item},now()
+        </foreach>
+    </insert>
+
+    <select id="selectSellUploadByCode" parameterType="String" resultType="WxSellUpload">
+        select id, sell_code, upload_path, create_time, update_time, status from c_sell_upload
+        where status=0
+        and sell_code=#{sellCode}
+    </select>
+    
+</mapper>

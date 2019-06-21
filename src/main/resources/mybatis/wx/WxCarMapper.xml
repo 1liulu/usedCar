@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.wx.car.mapper.WxCarMapper">
+
+    <resultMap type="WxBrand" id="BrandResult">
+        <result property="brandId"    column="brand_id"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="pId"    column="p_id"    />
+        <collection property="brandList" ofType="WxBrand" column="p_id"
+                    javaType="java.util.List">
+            <result property="pId"    column="p_id"    />
+            <result property="brandId"    column="pbrand_id"    />
+            <result property="brandName"    column="pbrand_name"    />
+        </collection>
+    </resultMap>
+    
+    <select id="getCarBrand" parameterType="com.car.project.wx.car.domain.WxBrand" resultMap="BrandResult">
+        select c.brand_id,c.brand_name,c1.p_id,c1.brand_id as pbrand_id,c1.brand_name as pbrand_name
+        from c_brand c
+        left join c_brand c1 on c1.p_id=c.brand_id
+        <where>
+            c.status=0
+            and c.p_id is null
+            <if test="pId!=null and pId!=''">
+                and c1.p_id=#{pId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCarType" parameterType="WxType" resultType="WxType">
+        select type_id, type_name, create_time, update_time, status, remark
+        from c_type
+        where status=0
+    </select>
+
+    <select id="getCarTypeBrand" parameterType="WxTypeBrand" resultType="WxTypeBrand">
+        select tb.id, tb.type_id,t.type_name, tb.brand_id,b.brand_name, tb.create_time, tb.update_time, tb.status, tb.remark from c_type_brand tb
+        left join c_type t on tb.type_id=t.type_id
+        left join c_brand b on tb.brand_id=b.brand_id
+        <where>
+            tb.status=0
+            <if test="id != null "> and tb.id = #{id}</if>
+            <if test="typeId != null "> and tb.type_id = #{typeId}</if>
+            <if test="brandId != null "> and tb.brand_id = #{brandId}</if>
+            <if test="createTime != null "> and tb.create_time like CONCAT('%',DATE_FORMAT(#{createTime},'%Y-%m-%d'),'%')</if>
+            <if test="updateTime != null "> and tb.update_time like CONCAT('%',DATE_FORMAT(#{updateTime},'%Y-%m-%d'),'%')</if>
+            <if test="remark != null  and remark != '' "> and tb.remark like CONCAT('%',#{remark},'%')</if>
+        </where>
+    </select>
+
+    <resultMap type="WxArea" id="AreaResult">
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="pcode"    column="pcode"    />
+        <collection property="sareaList" ofType="WxArea" column="pcode"
+                    javaType="java.util.List">
+            <result property="pcode"    column="scode"    />
+            <result property="code"    column="scode"    />
+            <result property="name"    column="sname"    />
+            <collection property="qareaList" ofType="WxArea" column="scode"
+                        javaType="java.util.List">
+                <result property="pcode"    column="spcode"    />
+                <result property="code"    column="qcode"    />
+                <result property="name"    column="qname"    />
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="getAreaInfo" parameterType="WxArea" resultMap="AreaResult">
+        select c.`code`,c.`name`,c1.pcode,c1.`code` as scode,c1.`name` as sname,c2.pcode as spcode,c2.`code` as qcode,c2.`name` as qname
+        from c_areainfo c
+        LEFT JOIN c_areainfo c1 on c1.pcode=c.`code`
+        LEFT JOIN c_areainfo c2 on c2.pcode=c1.`code`
+        where c.pcode is NULL
+    </select>
+</mapper>
