@@ -1,12 +1,11 @@
 package com.car.project.wx.car.service;
 
 
-import com.car.project.wx.car.domain.WxArea;
-import com.car.project.wx.car.domain.WxBrand;
-import com.car.project.wx.car.domain.WxType;
-import com.car.project.wx.car.domain.WxTypeBrand;
+import com.car.project.module.brand.domain.Brand;
+import com.car.project.wx.car.domain.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface WxCarService {
 
@@ -32,4 +31,12 @@ public interface WxCarService {
     List<WxTypeBrand> getCarTypeBrand(WxTypeBrand typeBrand);
 
     List<WxArea> getAreaInfo(WxArea area);
+
+    List<WxEngine> getCarEngine(WxEngine engine);
+
+    List<WxArea> getAreaInfoDetail(WxArea area);
+
+    WxArea getAreaInfoByCode(WxArea area);
+
+    Map getDict(String type);
 }

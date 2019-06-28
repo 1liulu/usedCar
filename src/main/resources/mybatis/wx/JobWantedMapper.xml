@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.wx.jobWanted.mapper.JobWantedMapper">
+    
+    <resultMap type="com.car.project.wx.jobWanted.domain.JobWanted" id="JobWantedResult">
+        <result property="jobWantedId"    column="job_wanted_id"    />
+        <result property="nativePlace"    column="native_place"    />
+        <result property="cityId"    column="city_id"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="grade"    column="grade"    />
+        <result property="record"    column="record"    />
+        <result property="carTypeId"    column="car_type_id"    />
+        <result property="carTypeName"    column="car_type_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectJobWantedVo">
+        select job_wanted_id, native_place, city_id, city_name, grade, record, car_type_id, car_type_name, user_id, user_name, user_phone, create_time, update_time, status, remark from c_job_wanted
+    </sql>
+	
+    <select id="selectJobWantedList" parameterType="JobWanted" resultMap="JobWantedResult">
+        <include refid="selectJobWantedVo"/>
+        <where>  
+            <if test="jobWantedId != null "> and job_wanted_id = #{jobWantedId}</if>
+             <if test="nativePlace != null  and nativePlace != '' "> and native_place = #{nativePlace}</if>
+             <if test="cityId != null "> and city_id = #{cityId}</if>
+             <if test="cityName != null  and cityName != '' "> and city_name = #{cityName}</if>
+             <if test="grade != null  and grade != '' "> and grade = #{grade}</if>
+             <if test="record != null  and record != '' "> and record = #{record}</if>
+             <if test="carTypeId != null "> and car_type_id = #{carTypeId}</if>
+             <if test="carTypeName != null  and carTypeName != '' "> and car_type_name = #{carTypeName}</if>
+             <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="userPhone != null  and userPhone != '' "> and user_phone = #{userPhone}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectJobWantedById" parameterType="Long" resultMap="JobWantedResult">
+        <include refid="selectJobWantedVo"/>
+        where job_wanted_id = #{jobWantedId}
+    </select>
+        
+    <insert id="insertJobWanted" parameterType="JobWanted">
+        insert into c_job_wanted
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="jobWantedId != null  ">job_wanted_id,</if>
+			<if test="nativePlace != null  and nativePlace != ''  ">native_place,</if>
+			<if test="cityId != null  ">city_id,</if>
+			<if test="cityName != null  and cityName != ''  ">city_name,</if>
+			<if test="grade != null  and grade != ''  ">grade,</if>
+			<if test="record != null  and record != ''  ">record,</if>
+			<if test="carTypeId != null  ">car_type_id,</if>
+			<if test="carTypeName != null  and carTypeName != ''  ">car_type_name,</if>
+			<if test="userId != null  ">user_id,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="jobWantedId != null  ">#{jobWantedId},</if>
+			<if test="nativePlace != null  and nativePlace != ''  ">#{nativePlace},</if>
+			<if test="cityId != null  ">#{cityId},</if>
+			<if test="cityName != null  and cityName != ''  ">#{cityName},</if>
+			<if test="grade != null  and grade != ''  ">#{grade},</if>
+			<if test="record != null  and record != ''  ">#{record},</if>
+			<if test="carTypeId != null  ">#{carTypeId},</if>
+			<if test="carTypeName != null  and carTypeName != ''  ">#{carTypeName},</if>
+			<if test="userId != null  ">#{userId},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateJobWanted" parameterType="JobWanted">
+        update c_job_wanted
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nativePlace != null  and nativePlace != ''  ">native_place = #{nativePlace},</if>
+            <if test="cityId != null  ">city_id = #{cityId},</if>
+            <if test="cityName != null  and cityName != ''  ">city_name = #{cityName},</if>
+            <if test="grade != null  and grade != ''  ">grade = #{grade},</if>
+            <if test="record != null  and record != ''  ">record = #{record},</if>
+            <if test="carTypeId != null  ">car_type_id = #{carTypeId},</if>
+            <if test="carTypeName != null  and carTypeName != ''  ">car_type_name = #{carTypeName},</if>
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where job_wanted_id = #{jobWantedId}
+    </update>
+
+	<delete id="deleteJobWantedById" parameterType="Long">
+        delete from c_job_wanted where job_wanted_id = #{jobWantedId}
+    </delete>
+	
+    <delete id="deleteJobWantedByIds" parameterType="String">
+        delete from c_job_wanted where job_wanted_id in 
+        <foreach item="jobWantedId" collection="array" open="(" separator="," close=")">
+            #{jobWantedId}
+        </foreach>
+    </delete>
+    
+</mapper>

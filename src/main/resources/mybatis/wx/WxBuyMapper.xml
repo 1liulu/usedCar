@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.car.project.wx.buy.mapper.WxBuyMapper">
     
-    <resultMap type="WxBuyEntity" id="BuyResult">
+    <resultMap type="WxBuyRequest" id="BuyResult">
         <result property="buyId"    column="buy_id"    />
         <result property="userId"    column="user_id"    />
         <result property="brandId"    column="brand_id"    />
@@ -149,6 +149,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          <if test="addressId!=null">
              and address_id=#{addressId}
          </if>
+        <if test="keywords!=null and keywords!=''">
+            and (type_name like concat('%',#{keywords},'%') or brand_name like concat('%',#{keywords},'%'))
+        </if>
 
     </select>
 

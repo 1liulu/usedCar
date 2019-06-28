@@ -42,7 +42,7 @@ public class WxSellController extends BaseController
 		Integer page = sell.getPage();
 		Integer pageSize = sell.getPageSize();
 		Integer pageNum = (page - 1) * pageSize;
-		return BaseResponse.of(StatusCodeEnum.SUCCESS,"查询成功",sellService.searchSell(sell.getAddressId(),sell.getKeywords(),sell.getTypeId(),sell.getBrandId(),sell.getStartPrice(),sell.getEndPrice(),sell.getPId(),pageNum,pageSize));
+		return BaseResponse.of(StatusCodeEnum.SUCCESS,"查询成功",sellService.searchSell(sell.getAddressId(),sell.getKeywords(),sell.getTypeId(),sell.getBrandId(),sell.getStartPrice(),sell.getEndPrice(),sell.getPId(),page,pageSize));
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public class WxSellController extends BaseController
 		Integer page = sell.getPage();
 		Integer pageSize = sell.getPageSize();
 		Integer pageNum = (page - 1) * pageSize;
-		return BaseResponse.of(sellService.myByBuyList(sell.getAddressId(),sell.getKeywords(),sell.getTypeId(),sell.getBrandId(),sell.getStartPrice(),sell.getEndPrice(),sell.getUserId(),sell.getPId(),pageNum,pageSize));
+		return BaseResponse.of(sellService.myByBuyList(sell.getAddressId(),sell.getKeywords(),sell.getTypeId(),sell.getBrandId(),sell.getStartPrice(),sell.getEndPrice(),sell.getUserId(),sell.getPId(),page,pageSize));
 	}
 	
 }

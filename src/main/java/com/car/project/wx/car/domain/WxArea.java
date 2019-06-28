@@ -1,6 +1,8 @@
 package com.car.project.wx.car.domain;
 
+import com.car.common.core.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -26,6 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pId!=null and pId!=''">
                 and c1.p_id=#{pId}
             </if>
+            <if test="typeId!=null and typeId!=''">
+                and (c.brand_id in (select brand_id from c_type_brand where type_id=#{typeId})
+                or c1.brand_id in (select brand_id from c_type_brand where type_id=#{typeId}))
+            </if>
         </where>
     </select>
 
@@ -59,20 +63,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <result property="pcode"    column="scode"    />
             <result property="code"    column="scode"    />
             <result property="name"    column="sname"    />
-            <collection property="qareaList" ofType="WxArea" column="scode"
-                        javaType="java.util.List">
-                <result property="pcode"    column="spcode"    />
-                <result property="code"    column="qcode"    />
-                <result property="name"    column="qname"    />
-            </collection>
+            <!--<collection property="qareaList" ofType="WxArea" column="scode"-->
+                        <!--javaType="java.util.List">-->
+                <!--<result property="pcode"    column="spcode"    />-->
+                <!--<result property="code"    column="qcode"    />-->
+                <!--<result property="name"    column="qname"    />-->
+            <!--</collection>-->
         </collection>
     </resultMap>
 
-    <select id="getAreaInfo" parameterType="WxArea" resultMap="AreaResult">
-        select c.`code`,c.`name`,c1.pcode,c1.`code` as scode,c1.`name` as sname,c2.pcode as spcode,c2.`code` as qcode,c2.`name` as qname
-        from c_areainfo c
-        LEFT JOIN c_areainfo c1 on c1.pcode=c.`code`
-        LEFT JOIN c_areainfo c2 on c2.pcode=c1.`code`
-        where c.pcode is NULL
+<select id="getAreaInfo" parameterType="WxArea" resultMap="AreaResult">
+    select c.`code`,c.`name`,c1.pcode,c1.`code` as scode,c1.`name` as sname
+    <!-- c2.pcode as spcode,c2.`code` as qcode,c2.`name` as qname -->
+    from c_areainfo c
+    LEFT JOIN c_areainfo c1 on c1.pcode=c.`code`
+    <!--   LEFT JOIN c_areainfo c2 on c2.pcode=c1.`code`-->
+            where c.pcode is NULL
     </select>
+
+    <select id="getCarEngine" parameterType="com.car.project.wx.car.domain.WxEngine" resultType="com.car.project.wx.car.domain.WxEngine">
+        select engine_id, engine_name, create_time, update_time, status, remark
+        from c_engine
+        <where>
+            status=0
+            <if test="engineId!=null and engineId!=''">
+                and engine_id=#{engineId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getAreaInfoDetail" parameterType="WxArea" resultMap="AreaResult">
+        select code, name, pcode
+        from c_areainfo
+        where
+        pcode=#{pcode}
+    </select>
+
+    <select id="getAreaInfoByCode" parameterType="WxArea" resultType="WxArea">
+        select code,name,pcode
+        from c_areainfo
+        where
+        name=#{name}
+    </select>
+
+    <select id="getDictByString" parameterType="java.lang.String" resultType="java.lang.String">
+        select group_CONCAT(name) from c_dictionary
+        where status=0
+        and type=#{type}
+    </select>
+
 </mapper>

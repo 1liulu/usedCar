@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </update>
 
-    <select id="selectBySellWxList" resultType="com.car.project.wx.sell.domain.WxSellEntity">
+    <select id="selectBySellWxList" resultType="com.car.project.wx.sell.domain.WxSellRequest">
         select s.sell_id, s.user_id, s.user_name, s.user_phone, s.address_id, s.address, s.detailed_address, s.type_id, s.type_name,
         s.brand_id,s.brand_name, s.price, s.car_time, s.emission_standard, s.drive, s.engine_id, s.engine_name, s.fuel_type,
         s.horsepower, s.transfer_ownership,s.to_file, s.mileage, s.colour, s.feature, s.remark, s.create_time, s.update_time,

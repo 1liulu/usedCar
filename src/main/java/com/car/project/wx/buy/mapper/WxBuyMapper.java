@@ -20,7 +20,7 @@ public interface WxBuyMapper
      * @param buyId 用户求购ID
      * @return 用户求购信息
      */
-	public WxBuyEntity selectBuyById(Long buyId);
+	public WxBuyRequest selectBuyById(Long buyId);
 	
 	/**
      * 查询用户求购列表
@@ -28,7 +28,7 @@ public interface WxBuyMapper
      * @param buy 用户求购信息
      * @return 用户求购集合
      */
-	public List<WxBuyEntity> selectBuyList(WxBuyRequest buy);
+	public List<WxBuyRequest> selectBuyList(WxBuyRequest buy);
 	
 	/**
      * 新增用户求购
@@ -68,7 +68,7 @@ public interface WxBuyMapper
 	 * @param buy 用户求购信息
 	 * @return 用户求购集合
 	 */
-	public List<WxBuyEntity> selectBuyWxList(@Param("addressId") Long addressId);
+	public List<WxBuyRequest> selectBuyWxList(@Param("addressId") Long addressId,@Param("keywords") String keywords);
 
-	List<WxBuyEntity> myByBuyList(@Param("userId") Long userId);
+	List<WxBuyRequest> myByBuyList(@Param("userId") Long userId);
 }

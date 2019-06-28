@@ -248,6 +248,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/wx/sell/**", "anon,captchaValidate");
         filterChainDefinitionMap.put("/wx/buy/**", "anon,captchaValidate");
         filterChainDefinitionMap.put("/api/file/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("wx/jobWanted/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/wx/recruit/**", "anon,captchaValidate");
         filterChainDefinitionMap.put("/car/**", "anon,captchaValidate");
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());

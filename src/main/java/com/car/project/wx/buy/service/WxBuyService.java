@@ -1,6 +1,5 @@
 package com.car.project.wx.buy.service;
 
-import com.car.project.wx.buy.domain.WxBuyEntity;
 import com.car.project.wx.buy.domain.WxBuyRequest;
 import com.github.pagehelper.PageInfo;
 
@@ -18,15 +17,16 @@ public interface WxBuyService
      * @param buyId 用户求购ID
      * @return 用户求购信息
      */
-	public WxBuyEntity selectBuyById(Long buyId);
+	public WxBuyRequest selectBuyById(Long buyId);
 	
 	/**
      * 查询用户求购列表
      * 
      * @param addressId 地址
-     * @return 用户求购集合
+     * @param keywords
+	 * @return 用户求购集合
      */
-	public PageInfo selectBuyList(Long addressId, Integer pageNum, Integer pageSize);
+	public PageInfo selectBuyList(Long addressId, String keywords, Integer pageNum, Integer pageSize);
 	
 	/**
      * 新增用户求购
@@ -52,7 +52,7 @@ public interface WxBuyService
      */
 	public int deleteBuyByIds(String ids);
 
-	WxBuyEntity detail(Long buyId);
+	WxBuyRequest detail(Long buyId);
 
 	PageInfo myByBuyList(Long userId, Integer pageNum, Integer pageSize);
 }

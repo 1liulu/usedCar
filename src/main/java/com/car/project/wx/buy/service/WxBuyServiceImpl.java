@@ -28,7 +28,7 @@ public class WxBuyServiceImpl implements WxBuyService
      * @return 用户求购信息
      */
     @Override
-	public WxBuyEntity selectBuyById(Long buyId)
+	public WxBuyRequest selectBuyById(Long buyId)
 	{
 	    return buyMapper.selectBuyById(buyId);
 	}
@@ -40,10 +40,10 @@ public class WxBuyServiceImpl implements WxBuyService
      * @return 用户求购集合
      */
 	@Override
-	public PageInfo selectBuyList(Long addressId, Integer pageNum, Integer pageSize)
+	public PageInfo selectBuyList(Long addressId,String keywords, Integer pageNum, Integer pageSize)
 	{
 		PageHelper.startPage(pageNum,pageSize);
-		return new PageInfo(buyMapper.selectBuyWxList(addressId));
+		return new PageInfo(buyMapper.selectBuyWxList(addressId,keywords));
 	}
 	
     /**
@@ -84,7 +84,7 @@ public class WxBuyServiceImpl implements WxBuyService
 	}
 
 	@Override
-	public WxBuyEntity detail(Long buyId) {
+	public WxBuyRequest detail(Long buyId) {
 		return buyMapper.selectBuyById(buyId);
 	}
 

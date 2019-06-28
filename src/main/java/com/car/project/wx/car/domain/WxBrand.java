@@ -1,8 +1,12 @@
 package com.car.project.wx.car.domain;
 
+import com.car.common.core.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.List;
 
@@ -35,5 +39,9 @@ public class WxBrand
 
 	@JsonProperty("brandList")
 	private List<WxBrand> brandList;
+
+	/** 类型id */
+	@JsonProperty("type_id")
+	private Long typeId;
 
 }

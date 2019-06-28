@@ -1,6 +1,5 @@
 package com.car.project.wx.sell.mapper;
 
-import com.car.project.wx.sell.domain.WxSellEntity;
 import com.car.project.wx.sell.domain.WxSellRequest;
 import org.apache.ibatis.annotations.Param;
 
@@ -65,5 +64,5 @@ public interface WxSellMapper
 	public int deleteSellByIds(String[] sellIds);
 
 
-    List<WxSellEntity> selectBySellWxList(@Param("addressId") Long addressId, @Param("keywords") String keywords, @Param("typeId") Long typeId, @Param("brandId") Long brandId, @Param("startPrice") Double startPrice, @Param("endPrice") Double endPrice, @Param("userId") Long userId, @Param("pId") Long pId);
+    List<WxSellRequest> selectBySellWxList(@Param("addressId") Long addressId, @Param("keywords") String keywords, @Param("typeId") Long typeId, @Param("brandId") Long brandId, @Param("startPrice") Double startPrice, @Param("endPrice") Double endPrice, @Param("userId") Long userId, @Param("pId") Long pId);
 }

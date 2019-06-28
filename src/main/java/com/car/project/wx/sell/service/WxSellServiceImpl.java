@@ -3,7 +3,6 @@ package com.car.project.wx.sell.service;
 import com.car.common.core.text.Convert;
 import com.car.common.utils.ToolsUtils;
 import com.car.framework.util.ShiroUtils;
-import com.car.project.wx.sell.domain.WxSellEntity;
 import com.car.project.wx.sell.domain.WxSellRequest;
 import com.car.project.wx.sell.mapper.WxSellMapper;
 import com.car.project.wx.sell.mapper.WxSellUploadMapper;
@@ -127,14 +126,14 @@ public class WxSellServiceImpl implements WxSellService {
     @Override
     public PageInfo searchSell(Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long pId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<WxSellEntity> list=sellMapper.selectBySellWxList( addressId,  keywords,  typeId,  brandId, startPrice, endPrice,null,pId);
+        List<WxSellRequest> list=sellMapper.selectBySellWxList( addressId,  keywords,  typeId,  brandId, startPrice, endPrice,null,pId);
         return new PageInfo(list);
     }
 
     @Override
     public PageInfo myByBuyList(Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long userId, Long pId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<WxSellEntity> list=sellMapper.selectBySellWxList( addressId,  keywords,  typeId,  brandId, startPrice, endPrice,userId,pId);
+        List<WxSellRequest> list=sellMapper.selectBySellWxList( addressId,  keywords,  typeId,  brandId, startPrice, endPrice,userId,pId);
         return new PageInfo(list);
     }
 

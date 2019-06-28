@@ -35,7 +35,7 @@ public class WxBuyController extends BaseController {
         Integer pageSize = buy.getPageSize();
         Integer pageNum = (page - 1) * pageSize;
 //        List<WxBuyRequest> list = buyService.selectBuyList(buy.getAddressId(),pageNum,pageSize);
-        return BaseResponse.of(buyService.selectBuyList(buy.getAddressId(),pageNum,pageSize));
+        return BaseResponse.of(buyService.selectBuyList(buy.getAddressId(),buy.getKeywords(),page,pageSize));
     }
 
     /**
@@ -159,7 +159,7 @@ public class WxBuyController extends BaseController {
         Integer pageSize = buy.getPageSize();
         Integer pageNum = (page - 1) * pageSize;
 //        List<WxBuyRequest> list=buyService.myByBuyList(buy.getUserId(),pageNum,pageSize);
-        return BaseResponse.of(buyService.myByBuyList(buy.getUserId(),pageNum,pageSize));
+        return BaseResponse.of(buyService.myByBuyList(buy.getUserId(),page,pageSize));
     }
 
 }

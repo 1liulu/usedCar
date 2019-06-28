@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from c_sell_upload where id = #{id}
     </delete>
 
-    <delete id="deleteSellUploadBySellCode" parameterType="Integer">
+    <delete id="deleteSellUploadBySellCode" parameterType="String">
         delete from c_sell_upload where sell_code = #{sellCode}
     </delete>
 	

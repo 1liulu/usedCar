@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.car.project.wx.recruit.mapper.RecruitMapper">
+    
+    <resultMap type="com.car.project.wx.recruit.domain.Recruit" id="RecruitResult">
+        <result property="recruitId"    column="recruit_id"    />
+        <result property="recruitType"    column="recruit_type"    />
+        <result property="num"    column="num"    />
+        <result property="cityId"    column="city_id"    />
+        <result property="grade"    column="grade"    />
+        <result property="wage"    column="wage"    />
+        <result property="carTypeId"    column="car_type_id"    />
+        <result property="carTypeName"    column="car_type_name"    />
+        <result property="drivePath"    column="drive_path"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="cityName"    column="city_name"    />
+    </resultMap>
+	
+	<sql id="selectRecruitVo">
+        select recruit_id, recruit_type, num, city_id, grade, wage, car_type_id, car_type_name, drive_path, user_id, user_name, user_phone, create_time, update_time, status, remark, city_name from c_recruit
+    </sql>
+	
+    <select id="selectRecruitList" parameterType="Recruit" resultMap="RecruitResult">
+        <include refid="selectRecruitVo"/>
+        <where>  
+            <if test="recruitId != null "> and recruit_id = #{recruitId}</if>
+             <if test="recruitType != null "> and recruit_type = #{recruitType}</if>
+             <if test="num != null "> and num = #{num}</if>
+             <if test="cityId != null "> and city_id = #{cityId}</if>
+             <if test="grade != null  and grade != '' "> and grade = #{grade}</if>
+             <if test="wage != null  and wage != '' "> and wage = #{wage}</if>
+             <if test="carTypeId != null "> and car_type_id = #{carTypeId}</if>
+             <if test="carTypeName != null  and carTypeName != '' "> and car_type_name = #{carTypeName}</if>
+             <if test="drivePath != null  and drivePath != '' "> and drive_path = #{drivePath}</if>
+             <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="userPhone != null  and userPhone != '' "> and user_phone = #{userPhone}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="cityName != null  and cityName != '' "> and city_name = #{cityName}</if>
+         </where>
+    </select>
+    
+    <select id="selectRecruitById" parameterType="Long" resultMap="RecruitResult">
+        <include refid="selectRecruitVo"/>
+        where recruit_id = #{recruitId}
+    </select>
+        
+    <insert id="insertRecruit" parameterType="Recruit">
+        insert into c_recruit
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="recruitId != null  ">recruit_id,</if>
+			<if test="recruitType != null  ">recruit_type,</if>
+			<if test="num != null  ">num,</if>
+			<if test="cityId != null  ">city_id,</if>
+			<if test="grade != null  and grade != ''  ">grade,</if>
+			<if test="wage != null  and wage != ''  ">wage,</if>
+			<if test="carTypeId != null  ">car_type_id,</if>
+			<if test="carTypeName != null  and carTypeName != ''  ">car_type_name,</if>
+			<if test="drivePath != null  and drivePath != ''  ">drive_path,</if>
+			<if test="userId != null  ">user_id,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="status != null  ">status,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="cityName != null  and cityName != ''  ">city_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="recruitId != null  ">#{recruitId},</if>
+			<if test="recruitType != null  ">#{recruitType},</if>
+			<if test="num != null  ">#{num},</if>
+			<if test="cityId != null  ">#{cityId},</if>
+			<if test="grade != null  and grade != ''  ">#{grade},</if>
+			<if test="wage != null  and wage != ''  ">#{wage},</if>
+			<if test="carTypeId != null  ">#{carTypeId},</if>
+			<if test="carTypeName != null  and carTypeName != ''  ">#{carTypeName},</if>
+			<if test="drivePath != null  and drivePath != ''  ">#{drivePath},</if>
+			<if test="userId != null  ">#{userId},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="cityName != null  and cityName != ''  ">#{cityName},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateRecruit" parameterType="Recruit">
+        update c_recruit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recruitType != null  ">recruit_type = #{recruitType},</if>
+            <if test="num != null  ">num = #{num},</if>
+            <if test="cityId != null  ">city_id = #{cityId},</if>
+            <if test="grade != null  and grade != ''  ">grade = #{grade},</if>
+            <if test="wage != null  and wage != ''  ">wage = #{wage},</if>
+            <if test="carTypeId != null  ">car_type_id = #{carTypeId},</if>
+            <if test="carTypeName != null  and carTypeName != ''  ">car_type_name = #{carTypeName},</if>
+            <if test="drivePath != null  and drivePath != ''  ">drive_path = #{drivePath},</if>
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="cityName != null  and cityName != ''  ">city_name = #{cityName},</if>
+        </trim>
+        where recruit_id = #{recruitId}
+    </update>
+
+	<delete id="deleteRecruitById" parameterType="Long">
+        delete from c_recruit where recruit_id = #{recruitId}
+    </delete>
+	
+    <delete id="deleteRecruitByIds" parameterType="String">
+        delete from c_recruit where recruit_id in 
+        <foreach item="recruitId" collection="array" open="(" separator="," close=")">
+            #{recruitId}
+        </foreach>
+    </delete>
+    
+</mapper>
