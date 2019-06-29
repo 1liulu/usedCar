@@ -64,5 +64,5 @@ public interface WxSellMapper
 	public int deleteSellByIds(String[] sellIds);
 
 
-    List<WxSellRequest> selectBySellWxList(@Param("addressId") Long addressId, @Param("keywords") String keywords, @Param("typeId") Long typeId, @Param("brandId") Long brandId, @Param("startPrice") Double startPrice, @Param("endPrice") Double endPrice, @Param("userId") Long userId, @Param("pId") Long pId);
+    List<WxSellRequest> selectBySellWxList(@Param("orderType") Integer orderType,@Param("addressId") Long addressId, @Param("keywords") String keywords, @Param("typeId") Long typeId, @Param("brandId") Long brandId, @Param("startPrice") Double startPrice, @Param("endPrice") Double endPrice, @Param("userId") Long userId, @Param("pId") Long pId);
 }

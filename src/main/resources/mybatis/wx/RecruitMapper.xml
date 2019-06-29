@@ -49,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
              <if test="cityName != null  and cityName != '' "> and city_name = #{cityName}</if>
          </where>
+        ORDER BY create_time DESC
     </select>
     
     <select id="selectRecruitById" parameterType="Long" resultMap="RecruitResult">

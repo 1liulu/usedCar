@@ -163,10 +163,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 and s.brand_id=#{brandId}
             </if>
             <if test="startPrice!=null">
-                and <![CDATA[s.price >= startPrice]]>
+                and s.price >= #{startPrice}
             </if>
             <if test="endPrice!=null">
-                and <![CDATA[s.price <= endPrice]]>
+                and #{endPrice}>=s.price
             </if>
             <if test="userId!=null">
                 and s.user_id=#{userId}
@@ -175,6 +175,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 and b.p_id=#{pId}
             </if>
         </where>
+        <if test="orderType==null">
+            ORDER BY s.create_time desc
+        </if>
+        <if test="orderType==1">
+            ORDER BY s.create_time desc
+        </if>
+        <if test="orderType==2">
+            ORDER BY s.price ASC
+        </if>
+        <if test="orderType==3">
+            ORDER BY s.price ASC
+        </if>
+        <if test="orderType==4">
+            ORDER BY s.car_time DESC
+        </if>
     </select>
     
 </mapper>

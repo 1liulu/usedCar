@@ -124,16 +124,16 @@ public class WxSellServiceImpl implements WxSellService {
     }
 
     @Override
-    public PageInfo searchSell(Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long pId, Integer pageNum, Integer pageSize) {
+    public PageInfo searchSell(Integer orderType,Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long pId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<WxSellRequest> list=sellMapper.selectBySellWxList( addressId,  keywords,  typeId,  brandId, startPrice, endPrice,null,pId);
+        List<WxSellRequest> list=sellMapper.selectBySellWxList(orderType, addressId,  keywords,  typeId,  brandId, startPrice, endPrice,null,pId);
         return new PageInfo(list);
     }
 
     @Override
     public PageInfo myByBuyList(Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long userId, Long pId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<WxSellRequest> list=sellMapper.selectBySellWxList( addressId,  keywords,  typeId,  brandId, startPrice, endPrice,userId,pId);
+        List<WxSellRequest> list=sellMapper.selectBySellWxList(null, addressId,  keywords,  typeId,  brandId, startPrice, endPrice,userId,pId);
         return new PageInfo(list);
     }
 

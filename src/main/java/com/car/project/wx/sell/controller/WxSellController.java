@@ -32,7 +32,7 @@ public class WxSellController extends BaseController
 	 */
 	@PostMapping("/list")
 	@ResponseBody
-	public BaseResponse searchSell(WxSellRequest sell)
+	public BaseResponse searchSell(WxSellRequest sell,Integer orderType)
 	{
 //		sell.setPageNum((sell.getPageTotal()-1)*sell.getPageSize());
 //		startPage();
@@ -42,7 +42,7 @@ public class WxSellController extends BaseController
 		Integer page = sell.getPage();
 		Integer pageSize = sell.getPageSize();
 		Integer pageNum = (page - 1) * pageSize;
-		return BaseResponse.of(StatusCodeEnum.SUCCESS,"查询成功",sellService.searchSell(sell.getAddressId(),sell.getKeywords(),sell.getTypeId(),sell.getBrandId(),sell.getStartPrice(),sell.getEndPrice(),sell.getPId(),page,pageSize));
+		return BaseResponse.of(StatusCodeEnum.SUCCESS,"查询成功",sellService.searchSell(orderType,sell.getAddressId(),sell.getKeywords(),sell.getTypeId(),sell.getBrandId(),sell.getStartPrice(),sell.getEndPrice(),sell.getPId(),page,pageSize));
 	}
 	
 	/**

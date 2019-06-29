@@ -52,7 +52,7 @@ public interface WxSellService {
 
     List<WxSellRequest> myByBuyList(WxSellRequest sell);
 
-    PageInfo searchSell(Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long pId, Integer pageNum, Integer pageSize);
+    PageInfo searchSell(Integer orderType,Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long pId, Integer pageNum, Integer pageSize);
 
     PageInfo myByBuyList(Long addressId, String keywords, Long typeId, Long brandId, Double startPrice, Double endPrice, Long userId, Long pId, Integer pageNum, Integer pageSize);
 }

@@ -58,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectBuyById" parameterType="Long" resultMap="BuyResult">
         <include refid="selectBuyVo"/>
         where buy_id = #{buyId}
+        ORDER BY create_time DESC
     </select>
         
     <insert id="insertBuy" parameterType="WxBuyRequest" useGeneratedKeys="true" keyProperty="buyId">
@@ -152,7 +153,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="keywords!=null and keywords!=''">
             and (type_name like concat('%',#{keywords},'%') or brand_name like concat('%',#{keywords},'%'))
         </if>
-
+        ORDER BY create_time DESC
     </select>
 
     <select id="myByBuyList" parameterType="java.lang.Long" resultMap="BuyResult">
